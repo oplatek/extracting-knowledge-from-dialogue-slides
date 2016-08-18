@@ -1,0 +1,644 @@
+%!TEX root = Intro-NLP-seminar.tex
+\section{Code Samples for Common Tasks in NLP}
+
+\begin{frame}
+\frametitle{What Programming Languages Can I Use for NLP?}
+    
+\begin{description}
+\item[Java] Apache OpenNLP, \textbf<2>{Stanford NLP}, Lucene, GATE, LingPipe\ldots
+\item[Python] NLTK (with a nice textbook)
+\item[.NET, PHP] \textbf<2>{Stanford NLP}, Lucene\ldots
+\end{description}
+
+%(Java and C\#.NET works quite well)
+
+\uncover<2>{Demonstration: Java and PHP, mostly using Stanford's libraries}
+
+\end{frame}
+
+
+\subsection{Stemming}
+
+\begin{frame}
+\frametitle{Libraries for Stemming}
+    
+\begin{itemize}
+\item Many libraries available \\\url{http://tartarus.org/martin/PorterStemmer/}
+\item Or implement your own -- nice scope for Individual Project
+\item \textcite{porter:1980} is most famous but there are other algorithms too
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile,allowframebreaks]
+\frametitle{Stemming Demo using PorterStemmer.class.php}
+    
+\begin{lstlisting}[language=PHP]
+<?php
+    require_once('PorterStemmer.class.php');
+
+    $stem = PorterStemmer::Stem("cats");
+    echo "$stem<br/>\n";
+    $stem = PorterStemmer::Stem("ponies");
+    echo "$stem<br/>\n";
+    $stem = PorterStemmer::Stem("produce");
+    echo "$stem<br/>\n";
+    $stem = PorterStemmer::Stem("producer");
+    echo "$stem<br/>\n";
+    $stem = PorterStemmer::Stem("producing");
+    echo "$stem<br/>\n";
+?>
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Stemmer Output}
+
+\begin{lstlisting}[columns=fullflexible]
+cat
+poni
+produc
+produc
+produc
+\end{lstlisting}
+
+\end{frame}
+
+\subsection{Stanford Parser}
+
+
+\begin{frame}
+\frametitle{Stanford Parser}
+
+\begin{itemize}
+\item \parencite{stanford:parser:2003}
+\item Stanford Parser can POS-tag, lemmatize \emph{and} parse!
+\item Not always the best results, but widely used \Winkey
+\end{itemize}    
+
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Installing and Setting Up}
+
+\begin{description}[Java]
+
+\item[Java]
+	\begin{itemize}
+	\item Download the Java library from \url{http://nlp.stanford.edu/software/lex-parser.shtml}
+	\item Unzip and place somewhere on system e.g.~in \directory{C:/}\\[1em]
+	\end{itemize}
+
+\item[PHP]
+	\begin{itemize}
+	\item Download the Java library first
+	\item Download the PHP library from \url{https://github.com/agentile/PHP-Stanford-NLP}
+	\item Unzip and place in \directory{C:/xampp/htdocs}\\[1em]
+	\end{itemize}
+
+\item[.NET]
+	\begin{itemize}
+	\item Download the Java library first
+	\item Follow instructions at \url{http://sergey-tihon.github.io/Stanford.NLP.NET/}
+    \item Class names, function calls etc.~exactly same as Java API
+	\end{itemize}
+\end{description}
+
+\end{frame}
+
+\begin{comment}
+\begin{frame}[fragile]
+\frametitle{Java Code Sample (Adapted from TaggerDemo.java)}
+    
+\begin{lstlisting}[language=Java,basicstyle={\ttfamily\scriptsize},gobble=4,
+	morekeywords={String, MaxentTagger, List}]
+    String model = "models/english-bidirectional-distsim.tagger";
+        String text = "This is some text with many sentences and words. " 
+                + "We use it to test our programs.";
+
+    // Initialise the POS tagger
+    MaxentTagger tagger = new MaxentTagger(model);
+
+    // Pre-processing: sentence-splitting and tokenising
+    List<List<HasWord>> sentences = MaxentTagger.tokenizeText(
+        new BufferedReader(new StringReader(text)));
+
+    // Loop through list of sentences
+    for (List<HasWord> sentence : sentences) {
+    	// POS-tag each sentence
+        List<TaggedWord> tSentence = tagger.tagSentence(sentence);
+
+        // Loop through each tagged word
+        for (TaggedWord tw: tSentence) {
+            System.out.print( tw.word() + "/" + tw.tag() + " " );
+        }
+        System.out.println();
+    }
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{POS-Tagging Output}
+    
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
+This/DT is/VBZ some/DT text/NN with/IN many/JJ sentences/NNS and/CC words/NNS ./. 
+We/PRP use/VBP it/PRP to/TO test/VB our/PRP$ programs/NNS ./. 
+\end{lstlisting}
+
+Refer to PTB tagset\\
+\url{https://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html})
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{POS-Tagging Code Sample for PHP}
+
+\begin{lstlisting}[language=PHP,basicstyle=\ttfamily\footnotesize,showtabs=true,tabsize=4]
+<?php
+require_once('autoload.php');
+
+// Note that the PHP version can only tag single sentence
+// (Write your own splitting function using regular expression)
+$text = "This is some text with many sentences and words.";
+
+// Copy these files from the Java version to current folder
+$pos = new \StanfordNLP\POSTagger(
+	'english-bidirectional-distsim.tagger','stanford-postagger.jar');
+
+$results = $pos->tag(explode(' ', $text));
+
+// Loop through the list of tagged words
+foreach ($results as $tagged) {
+	// each $tagged is an array: word and tag
+	echo "$tagged[0]/$tagged[1] ";
+}
+echo "<br/>";
+?>
+\end{lstlisting}
+
+
+\end{frame}
+\end{comment}
+
+%\subsection{Lemmatising}
+
+\subsection{POS-Tagging and Lemmatising}
+
+\begin{frame}[fragile,allowframebreaks]
+\frametitle{Java Code Sample}
+
+(\small Make sure \texttt{stanford-parser.jar} and \texttt{stanford-parser-\emph{version}-models.jar} are in the library path)
+
+
+\begin{lstlisting}[language=Java,basicstyle={\ttfamily\footnotesize}, gobble=4,
+    morekeywords={String, LexicalizedParser, List,DocumentPreprocessor,Tree,HasWord,Morphology,StringReader},
+    emph={apply,getLeaves,value,parent,lemmaStatic}, frame=lines,
+    escapechar=|]
+    // Initialise the parser using the English model
+    String parserModel = "edu/stanford/nlp/models/lexparser/englishPCFG.ser.gz";
+    LexicalizedParser lp = LexicalizedParser.loadModel(parserModel);
+
+    // Text to be processed
+    String text = "26 interested students came to the seminar. " 
+            + "They signed up quickly.";
+
+    // DocumentPreprocessor performs sentence-splitting and tokenising
+    for (List<HasWord> sentence : new DocumentPreprocessor(
+        new StringReader(text))) {
+
+        // Apply the parser on each sentence
+        Tree parse = lp.apply(sentence);
+
+        // Just need POS-tag and lemma?
+        for (Tree leaf : parse.getLeaves()) {
+            String surfaceForm = leaf.value();
+            String pos = leaf.parent(parse).value();
+            String lemma = Morphology.lemmaStatic(surfaceForm, pos, true);
+            System.out.print(surfaceForm);
+            System.out.print("/");
+            System.out.print(lemma);
+            System.out.print("/");
+            System.out.print(pos);
+            System.out.print(" ");
+        }
+        System.out.println();
+    }
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{POS-Tagging and Lemmatising Output}
+    
+\begin{lstlisting}
+23/23/CD interested/interested/JJ students/student/NNS came/come/VBD to/to/TO the/the/DT seminar/seminar/NN ././. 
+
+They/they/PRP signed/sign/VBD up/up/RP quickly/quickly/RB ././. 
+\end{lstlisting}
+
+\end{frame}
+
+
+\begin{frame}[fragile,allowframebreaks]
+\frametitle{PHP Code Sample}
+
+\lstset{morecomment=[s][\color{PaleVioletRed4}]{/*}{*/}}
+\begin{lstlisting}[language=PHP,basicstyle={\ttfamily\small},
+morekeywords={new}]
+<?php
+require_once('autoload.php');
+
+// Initialise the parser. 
+// Put the .jar files somewhere suitable
+$parser = new \StanfordNLP\Parser('stanford-parser.jar', 
+    'stanford-parser-3.5.0-models.jar');
+
+$text = "26 interested students came to the seminar. " 
+        . "They signed up quickly.";
+
+// parse the text
+$result = $parser->parseSentence($text);
+
+
+
+/* var_dump $result and you'll see it's an array with 
+ * 3 outputs: wordsAndTags, penn, typedDependencies */
+var_dump($result);
+
+// If only POS tag and lemma are required:
+echo "<ul>";
+foreach ($result["wordsAndTags"] as $tagged) {
+    // each item is an array of the word and POS
+    echo "<li>$tagged[0] ($tagged[1])";
+}
+echo "</ul>";
+?>
+\end{lstlisting}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{It doesn't work on my Windows machine!}
+    
+\lstset{language=PHP,frame=single,basicstyle=\ttfamily\small,gobble=4}
+
+\begin{itemize}
+    \item Error: \texttt{Notice: Undefined offset: 1...}
+    \item Solution: Modify \texttt{Parser.php}
+
+    \begin{lstlisting}
+    $output = explode("\n\n", trim($this->getOutput()));
+    \end{lstlisting}
+
+    to
+
+    \begin{lstlisting}
+    $output = explode("\r\n\r\n", trim($this->getOutput()));
+    \end{lstlisting}
+
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{The PHP version doesn't return lemmas?}
+    
+Need to modify \texttt{Parser.php} by adding a line:
+
+\begin{lstlisting}[language=PHP,gobble=8,escapechar=|,basicstyle=\ttfamily\small,frame=lines]
+        $cmd = $this->getJavaPath()
+            . " $options -cp \""
+            . $this->getJar()
+            . $osSeparator
+            . $this->getModelsJar()
+            . '" edu.stanford.nlp.parser.lexparser.LexicalizedParser -encoding UTF-8 -outputFormat "'
+            . $this->getOutputFormat()
+            . "\" "
+            |\textbf{\color{PaleVioletRed4}. '-outputFormatOptions "stem" '}|
+            . $parser
+            . " "
+            . $tmpfname;
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{POS-Tagging and Lemmatising Output}
+    
+\begin{itemize}
+\item 26 (CD)
+\item interested (JJ)
+\item student (NNS)
+\item come (VBD)
+\item to (TO)
+\item the (DT)
+\item seminar (NN)
+\item . (.)
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{PHP version returns only the 1st sentence?}
+    
+\begin{itemize}
+\item The PHP version only captures the output for 1st sentence
+\item Possible to modify \texttt{Parser.php} to return output for all sentences
+\item (Try yourself or see me if needed)
+\end{itemize}
+
+\end{frame}
+
+\subsection{Parsing}
+
+\begin{frame}
+\frametitle{Which parsing structure to use?}
+
+\begin{itemize}
+\item If you need to use the tree structure of a text -- I'd recommend the \alert{dependency} structure
+\item Shorter tree; shows parent-child between word/lemmas in text
+\end{itemize}
+\end{frame} 
+
+
+\begin{frame}[fragile,allowframebreaks]
+\frametitle{Java Code Sample}
+    
+\begin{lstlisting}[language=Java,basicstyle=\ttfamily\footnotesize,gobble=8,
+    emph={parse,lp,typedDependenciesCCprocessed,lemmaStatic,dep,gov,reln,index,tag,value},
+    morekeywords={TreebankLanguagePack,GrammaticalStructureFactory,GrammaticalStructure,
+        List,TypedDependency,IndexedWord,String,Morphology},
+        escapechar=|]
+        // Continue from earlier Java code 
+        // Use the parsed tree to get the typed dependencies
+        TreebankLanguagePack tlp = lp.treebankLanguagePack();
+        GrammaticalStructureFactory gsf = tlp.grammaticalStructureFactory();
+        GrammaticalStructure gs = gsf.newGrammaticalStructure(parse);
+        List<TypedDependency> tdl = gs.typedDependenciesCCprocessed();
+
+        // Let's just print out each of the parent-child relationship first
+        for (TypedDependency td : tdl) {
+            // parent = "governer"
+            IndexedWord parent = td.gov();
+            String parentWord = parent.value();
+            String parentPOS = parent.tag();
+            String parentLemma = Morphology.lemmaStatic(
+                parentWord, parentPOS, true);
+            
+            |\framebreak|
+            // child = "dependent"
+            IndexedWord child = td.dep();
+            String childWord = child.value();
+            String childPOS = child.tag();
+            String childLemma = Morphology.lemmaStatic(
+                childWord, childPOS, true);
+            
+            
+            System.out.println(
+                "[" + parent.index() + "]" + parentLemma + "/" + parentPOS 
+                + " <--" + td.reln().getShortName() + "-- "
+                + "[" + child.index() + "]" + childLemma + "/" + childPOS);
+        }
+        System.out.println();
+\end{lstlisting}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Dependencies as a List}
+    
+\begin{lstlisting}[basicstyle=\ttfamily\small]
+[3]student/NNS <--num-- [1]23/CD
+[3]student/NNS <--amod-- [2]interested/JJ
+[4]come/VBD <--nsubj-- [3]student/NNS
+[0]root/null <--root-- [4]come/VBD
+[7]seminar/NN <--det-- [6]the/DT
+[4]come/VBD <--prep-- [7]seminar/NN
+
+[2]sign/VBD <--nsubj-- [1]they/PRP
+[0]root/null <--root-- [2]sign/VBD
+[2]sign/VBD <--prt-- [3]up/RP
+[2]sign/VBD <--advmod-- [4]quickly/RB
+\end{lstlisting}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Recursively Navigating the Dependency Tree}
+    
+\begin{lstlisting}[language=Java,basicstyle=\ttfamily\footnotesize]
+// recursively go through parent-children links, starting from root
+int curParent = 0;
+processChildren(curParent, tdl);
+System.out.println();
+
+private static void processChildren(int parentID, List<TypedDependency> tdl) {
+    for (TypedDependency td: tdl) {
+        if (td.gov().index() == parentID) {
+            IndexedWord childNode = td.dep();
+            // do the processing with childNode's values, example:
+            // Remember to lemmatise if necessary!!
+            System.out.println("Child of node " + parentID + ": ["  
+                + childNode.index() + "] " +  childNode.word() + "/" + childNode.tag());
+            // then process childNode's children...
+            processChildren(childNode.index(), tdl);
+        }
+    }   
+}
+\end{lstlisting}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Navigating Parent-Child Output}
+    
+\begin{lstlisting}
+Child of node 0: [4] came/VBD
+Child of node 4: [3] students/NNS
+Child of node 3: [1] 23/CD
+Child of node 3: [2] interested/JJ
+Child of node 4: [7] seminar/NN
+Child of node 7: [6] the/DT
+
+Child of node 0: [2] signed/VBD
+Child of node 2: [1] They/PRP
+Child of node 2: [3] up/RP
+Child of node 2: [4] quickly/RB
+\end{lstlisting} 
+
+\end{frame}
+
+
+\begin{frame}[fragile,allowframebreaks]
+\frametitle{PHP Code Sample}
+    
+\begin{lstlisting}[language=PHP,basicstyle=\ttfamily\footnotesize,
+emph={typedDependencies, processChildren}, escapechar={|},
+morekeywords={function}]
+$curParent = 0;
+echo "<ul>";
+processChildren($curParent, $result["typedDependencies"]);
+echo "</ul>";
+
+function processChildren($curParent, $tdl) {
+    foreach ($tdl as $td) {
+        $parent = explode("/", $td[0]["feature"]);
+        $parentLemma = $parent[0];
+        $parentPOS = $parent[1];
+        $parentIndex = $td[0]["index"];
+
+        $child = explode("/", $td[1]["feature"]);
+        $childLemma = $child[0];
+        $childPOS = $child[1];
+        $childIndex = $td[1]["index"];
+        $reln = $td["type"];
+
+        if ($parentIndex == $curParentID) {
+            // do the processing with childNode's values, example:
+            echo "<li>Child of node $curParentID: [$childIndex] " 
+                . "$childLemma/$childPOS</li>\n";
+            // then process childNode's children...
+            processChildren($childIndex, $tdl);
+        }
+    }
+}
+\end{lstlisting}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{By default, no POS in typedDependencies?!}
+    
+Need to modify \texttt{Parser.php} by adding another option:
+
+\begin{lstlisting}[language=PHP,gobble=8,escapechar=|,basicstyle=\ttfamily\small,frame=lines]
+        $cmd = $this->getJavaPath()
+            . " $options -cp \""
+            . $this->getJar()
+            . $osSeparator
+            . $this->getModelsJar()
+            . '" edu.stanford.nlp.parser.lexparser.LexicalizedParser -encoding UTF-8 -outputFormat "'
+            . $this->getOutputFormat()
+            . "\" "
+            |\textbf{\color{PaleVioletRed4}. '-outputFormatOptions "stem,\textcolor{mLightBrown}{includeTags}" '}|
+            . $parser
+            . " "
+            . $tmpfname;
+\end{lstlisting}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Output}
+    
+\begin{itemize}
+\item    Child of node 0: [4] come/VBD
+\item    Child of node 4: [3] student/NNS
+\item    Child of node 3: [1] 26/CD
+\item    Child of node 3: [2] interested/JJ
+\item    Child of node 4: [7] seminar/NN
+\item    Child of node 7: [6] the/DT
+\end{itemize}
+
+\end{frame}
+
+\subsection{Speech Synthesis and Recognition}
+
+\begin{frame}
+\frametitle{Speech Synthesis and Recognition}
+    
+\begin{itemize}
+\item Microsoft Speech Platform
+    \begin{itemize}
+        \item English, Japanese, Chinese, French, Spanish\ldots
+    \end{itemize}
+\item Android -- Google Speech API
+    \begin{itemize}
+        \item English, Spanish, Japanese, Indonesian, French, Italian, Korean, Hindi\ldots
+    \end{itemize}
+\item Read the comprehensive API documentations!
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{A Word on Language Codes}
+    
+\begin{itemize}
+    \item ISO-639 Standard
+    \item 2-letter and 3-letter codes
+
+\bigskip
+\begin{center}
+\begin{tabular}{l >{\ttfamily}c >{\ttfamily}c}
+\toprule
+Language & 2-letter & 3-letter\\
+\midrule
+English & en & eng\\
+Malay & ms & msa, zsm \textsf{(Standard Malay)}\\
+Indonesian & id & ind\\
+Chinese & zh & zho \\
+Cantonese (Yue) & & yue\\
+Hokkien (Min Nan) & & nan\\
+French & fr & fra\\
+\ldots & \ldots & \ldots\\
+\bottomrule
+\end{tabular}
+\end{center}
+\bigskip
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Can also specify Locales}
+    
+\begin{itemize}
+    \item Can add country code to specify locale
+
+\begin{center}
+\begin{tabular}{>{\ttfamily}c l}
+\toprule
+Language code & Language \\
+\midrule
+en-US & American English\\
+en-UK & British English\\
+en-AU & Australian English\\
+zh-CN & Mainland China Chinese\\
+zh-TW & Taiwanese Chinese\\
+zh-HK & Hong Kong Chinese\\
+\ldots & \ldots\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\item (Sometimes underscore instead of dash; sometimes given as separate arguments\ldots)
+
+\end{itemize}
+\end{frame}
+
+\subsection{Many Others!}
+
+\begin{frame}
+\frametitle{Other examples not shown here}
+
+\begin{itemize}
+\item Stanford NER (Java, PHP, .NET)
+\item If you know Python, do look up NLTK \parencite{nltk:book}
+\item GATE: Available as GUI workbench and as embedded API
+\item LingPipe: Some interesting libraries for working with corpora
+\item \ldots Many, many more!
+\end{itemize}
+    
+
+
+\end{frame}
