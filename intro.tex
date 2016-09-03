@@ -1,0 +1,119 @@
+%!TEX root = Intro-NLP-seminar.tex
+\section{Introduction}
+
+\begin{frame}
+\frametitle{sample dialogue}
+\begin{itemize}
+\item[] 
+\begin{itemize}
+\item[] (\OP{cuisine->food}: ?, area: ?, price: ?)
+\end{itemize}
+\item[] System: \textit{What type of restaurant are you looking for?}
+\begin{itemize}
+\item[] \texttt{request(\OP{!cuisine!})}
+\end{itemize}
+\item[] User: \textit{I am looking for a japanese restaurant in the city center.}
+\begin{itemize}
+\item[] \texttt{inform(\OP{!cuisine!}:japanese, area:center)}
+\end{itemize}
+\item[] System: \textit{What price range do you prefer?}
+\begin{itemize}
+\item[] \texttt{request(price)}
+\end{itemize}
+\item[] User: \textit{I want something cheap.}
+\begin{itemize}
+\item[] \texttt{inform(price:cheap)}
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{sample dialogue}
+\begin{itemize}
+\item[] 
+\begin{itemize}
+\item[] (cuisine: ?, area: ?, price: ?)
+\end{itemize}
+\item[] System: \textit{What type of restaurant are you looking for?}
+\item[] User: \textit{I am looking for a japanese restaurant in the city center.}
+\begin{itemize}
+\item[] (\textcolor{red}{cuisine: japanese}, \textcolor{red}{area: center}, price: ?)
+\end{itemize}
+\item[] System: \textit{What price range do you prefer?}
+\item[] User: \textit{I want something cheap.}
+\begin{itemize}
+\item[] (cuisine: japanese, area: center, \textcolor{red}{price: cheap})
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Why track a dialogue}
+\begin{itemize}[<+->]
+\item Dialogue agent tracks the progress and decides what action to take.
+\begin{itemize}
+\item \OP{?Essential information?}
+\end{itemize}
+\item Need to to represent the state \OP{?somehow?}
+\item Track \OP{?obtained?} information (history)
+\item \alert{What does the user probably want?} \OP{nerozumim}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{What is the Dialogue state}
+
+\begin{itemize}[<+->]
+\item Triple \texttt{(method, slot, value)}
+\item State space of possible situations
+\begin{itemize}
+\item Each situation described e.g. by Dialog Act Item
+\item Probability distribution over situations
+\item \OP{Tracking just slots and values}
+\end{itemize}
+\item Example using Dialog Act Items:
+	\begin{itemize}
+	\item (\textcolor{red}{cuisine}: \textcolor{blue}{japanese}, \textcolor{red}{area}: \textcolor{blue}{center}, \textcolor{red}{price}: \textcolor{blue}{moderate})
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+%\begin{frame}
+%\frametitle{Possible approaches\cite{zilka2013}}
+%\begin{itemize}
+%\item \textbf{Discriminative belief update}
+%\begin{itemize}
+%\item Belief state is a product of marginal probabilities of all pairs \textit{slot:value}
+%\end{itemize}
+%\item \textbf{Belief update with generative model}
+%\begin{itemize}
+%\item Distribution factorized into transition and observation model
+%\item Bayesian network of possible values
+%\end{itemize}
+%\item Both can accumulate information 
+%\item Discriminative model outperforms the generative one, however it is quite naive.
+%\end{itemize}
+%\end{frame}
+
+\begin{frame}
+\frametitle{DSTC2 Dataset\cite{Henderson2014a}}
+\begin{itemize}
+\item Challenge organized by University of Cambridge, dataset publicly available.
+\item Each dialogue composed of \textit{turns} - pair of user and system utterances.
+\item Annotated dialogues - gold DAI after each turn.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{DSTC2 Dataset}
+\begin{itemize}
+\item Train set contains 1612, development 506 and test 1117 dialogues
+\item Dialogues were obtained by user-computer interaction
+\item Mix of Dialogue Managers \OP{?Systems?} and ASR engines was used.
+\begin{itemize}
+\item Different setting used for each set \alert{$\rightarrow$ increased difficulty}
+\item Reshuffled data significantly easier
+\end{itemize}
+\end{itemize}
+\end{frame}

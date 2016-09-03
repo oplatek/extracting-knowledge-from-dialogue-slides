@@ -1,11 +1,17 @@
+
 \RequirePackage{silence}
-\WarningFilter{biblatex}{Patching footnotes failed}
 \documentclass[10pt, compress,british,xcolor={svgnames,dvipsnames,x11names},trans]{beamer}
 
 \usepackage{babel}
 \usepackage{csquotes}
 \usepackage{comment}
 \usepackage{tikzsymbols}
+
+
+% OP - Ondrej Platek inline 
+\definecolor{purple}{RGB}{200,0,200}
+\def\OP#1{{\color{purple}OP: \it #1}}
+\def\OPdel#1{\bgroup\markoverwith{\textcolor{purple}{\rule[0.5ex]{2pt}{1pt}}}\ULon{#1}}
 
 %%% mtheme customisations
 \usetheme[progressbar=frametitle,block=fill]{m}
@@ -78,77 +84,35 @@ emphstyle={\color{OliveGreen}\bfseries}
   \pgfusepathqstroke%
 }
 
-\usepackage[backend=biber,style=apa]{biblatex}
-\DeclareLanguageMapping{british}{british-apa}
-\renewcommand{\finalnamedelim}{and}
-\renewcommand{\bibfont}{\small}
-\setlength{\bibhang}{1em}
-\setlength{\bibitemsep}{1ex}
-\bibliography{refs}
-\renewcommand{\UrlFont}{\ttfamily}
-
 \usepackage[os=win]{menukeys}
 
 
-\title{A Practical Introduction to Natural Language Processing}
+\title{RNNs for Dialogue State Tracking}
 
-\subtitle{Intelligent Processing \& Applications\\Research Cluster Seminar}
 
-%\date{5 \& 12 March 2015}
-%\date{5 March 2015\\Session 1: Common Tasks and Concepts in NLP}
-%\date{12 March 2015\\Session 2: Software Libraries and Resources for NLP}
-\date{5 March 2015\\Session 1: Common Tasks and Concepts in NLP\\[0.5ex]
-12 March 2015\\Session 2: Software Libraries and Resources for NLP}
-\author{Dr Lim Lian Tze}
+\author{Ondřej Plátek, Petr Bělohlávek, Vojtěch Hudeček \& Filip Jurčíček \\ \footnotesize{\texttt{vojta.hudecek@gmail.com,oplatek@ufal.mff.cuni.cz}}}
 \institute{
-Information Technology Department\\
-School of Science, Engineering and Technology\\
-KDU College Penang
+Institute of Formal and Applied Linguistics\\
+Faculty of Mathematics and Physics\\
+Charles university in Prague
 }
 
 \begin{document}
 
 \maketitle
 
-\begin{frame}[label=LO]
-\frametitle{Learning Outcomes}
 
-At the end of the seminar, participants will be able to:
+\include{intro}
+\include{model}
+\include{results}
 
-\begin{itemize}
-\item Explain examples of NLP applications and related technical issues.
-\item Explain the layers of NLP and corresponding processing tasks.
-\item<alert@2> Use existing libraries to perform common NLP processing tasks.
-\item<alert@2> Use wordnet-based semantic networks to provide multilingual semantic information in NLP applications.
-\end{itemize}
-\end{frame}
-
-
-\begin{frame}{Contents}
-\setbeamertemplate{section in toc}[sections numbered]
-\tableofcontents[hideallsubsections]
-\end{frame}
-
-
-\include{nlp-cl}
-\include{example-apps}
-\include{layers}
-\include{student-projects}
-\plain{End of Session 1\\See you next week!}
-\include{common-tasks}
-\include{wordnet}
 \plain{The End\\Thank you!}
 
 \appendix
-
 \begin{frame}[allowframebreaks]
-\frametitle{Bibliography}
-
-\alert{\footnotesize I am using the APA referencing/citation style in this presentation. \emph{You} should be using Harvard Cite-Them-Right style -- do not copy and paste from this list!}
-
-\nocite{*}
-\printbibliography[heading=none]
-
+        \frametitle{References}
+        \bibliographystyle{plain}
+        \bibliography{refs.bib}
 \end{frame}
 
 \end{document}
