@@ -2,7 +2,8 @@
 \RequirePackage{silence}
 \documentclass[10pt, compress,british,xcolor={svgnames,dvipsnames,x11names},trans]{beamer}
 
-\usepackage{babel}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
 \usepackage{csquotes}
 \usepackage{comment}
 \usepackage{tikzsymbols}
@@ -13,33 +14,33 @@
 \def\OP#1{{\color{purple}OP: \it #1}}
 \def\OPdel#1{\bgroup\markoverwith{\textcolor{purple}{\rule[0.5ex]{2pt}{1pt}}}\ULon{#1}}
 
-%%% mtheme customisations
-\usetheme[progressbar=frametitle,block=fill]{m}
-\setmonofont[Scale=0.92]{Fira Mono}
-\AtBeginSubsection{
-\metroset{color/background=dark}
-\frame[plain,c]{
-  \begin{center}
-  \begin{minipage}{25em}
-    \usebeamercolor[fg]{section title}
-    \usebeamerfont{section title}
-    \insertsubsection\\[-1ex]
-    \usebeamertemplate*{progress bar in section page}
-  \end{minipage}
-  \end{center}
-}
-\metroset{color/background=light}
-}
-%%%%% end mtheme
+% %%% mtheme customisations
+% \usetheme[progressbar=frametitle,block=fill]{m}
+% \setmonofont[Scale=0.92]{Fira Mono}
+% \AtBeginSubsection{
+% \metroset{color/background=dark}
+% \frame[plain,c]{
+%   \begin{center}
+%   \begin{minipage}{25em}
+%     \usebeamercolor[fg]{section title}
+%     \usebeamerfont{section title}
+%     \insertsubsection\\[-1ex]
+%     \usebeamertemplate*{progress bar in section page}
+%   \end{minipage}
+%   \end{center}
+% }
+% \metroset{color/background=light}
+% }
+% %%%%% end mtheme
 
 \setbeamertemplate{frametitle continuation}[from second]
 \setbeamertemplate{bibliography item}[book]
 
-\usepackage{xeCJK}
-%\setCJKsansfont[BoldFont=Kozuka Gothic Pro]{Kozuka Gothic Pro L}
-\setCJKsansfont{IPAGothic}
-% \newCJKfontfamily{\xiheifont}[BoldFont=STHeiti]{STXihei}
-\newCJKfontfamily{\xiheifont}{WenQuanYi Micro Hei}
+% \usepackage{xeCJK}
+% %\setCJKsansfont[BoldFont=Kozuka Gothic Pro]{Kozuka Gothic Pro L}
+% \setCJKsansfont{IPAGothic}
+% % \newCJKfontfamily{\xiheifont}[BoldFont=STHeiti]{STXihei}
+% \newCJKfontfamily{\xiheifont}{WenQuanYi Micro Hei}
 
 \usetikzlibrary{arrows}
 \usetikzlibrary{chains}
@@ -87,10 +88,10 @@ emphstyle={\color{OliveGreen}\bfseries}
 \usepackage[os=win]{menukeys}
 
 
-\title{RNNs for Dialogue State Tracking}
+\title{A Dataset of Operator-client Dialogues Aligned with Database Queries for End-to-end Training}
 
 
-\author{Ondřej Plátek, Petr Bělohlávek, Vojtěch Hudeček \& Filip Jurčíček \\ \footnotesize{\texttt{vojta.hudecek@gmail.com,oplatek@ufal.mff.cuni.cz}}}
+\author{Ondřej Plátek \& Filip Jurčíček \\ \footnotesize{\texttt{\{oplatek,jurcicek\}@ufal.mff.cuni.cz}}}
 \institute{
 Institute of Formal and Applied Linguistics\\
 Faculty of Mathematics and Physics\\
@@ -101,18 +102,33 @@ Charles university in Prague
 
 \maketitle
 
+\section{Example section}
+\begin{frame}
+    \frametitle{Example slide}
+    \begin{columns}
+        \begin{column}{0.65\textwidth}
+            \begin{itemize}
+                \item Recurrent neural network composed of sequentially ordered cells
+                \item Maintains (encodes) hidden state and emits observation after each turn
+                \item Improved with LSTM cells
+                \item Suitable for DST task - history is taken into account
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.35\textwidth}
+            \includegraphics[width=0.90\textwidth]{encoder.pdf}
+        \end{column}
+    \end{columns}
+\end{frame}
 
-\include{intro}
-\include{model}
-\include{results}
 
-\plain{The End\\Thank you!}
+% \plain{The End\\Thank you!}
 
 \appendix
+
 \begin{frame}[allowframebreaks]
         \frametitle{References}
         \bibliographystyle{plain}
-        \bibliography{refs.bib}
+        \bibliography{literature.bib}
 \end{frame}
 
 \end{document}
