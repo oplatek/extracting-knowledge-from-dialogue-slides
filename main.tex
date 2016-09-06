@@ -101,9 +101,10 @@ Charles university in Prague
 
 \maketitle
 
-\section{Example section}
+\section{Motivation}
+
 \begin{frame}
-    \frametitle{Example slide}
+    \frametitle{Why end-to-end system?}
     \begin{columns}
         \begin{column}{0.65\textwidth}
             \begin{itemize}
@@ -119,6 +120,22 @@ Charles university in Prague
     \end{columns}
 \end{frame}
 
+\begin{frame}
+    \frametitle{Why learning (explicit knowledge)?}
+    \begin{columns}
+        \begin{column}{0.65\textwidth}
+            \begin{itemize}
+                \item Recurrent neural network composed of sequentially ordered cells
+                \item Maintains (encodes) hidden state and emits observation after each turn
+                \item Improved with LSTM cells
+                \item Suitable for DST task - history is taken into account
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.35\textwidth}
+            \includegraphics[width=0.90\textwidth]{encoder.pdf}
+        \end{column}
+    \end{columns}
+\end{frame}
 
 % \plain{The End\\Thank you!}
 
