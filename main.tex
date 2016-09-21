@@ -20,6 +20,15 @@
 \def\OPdel#1{\bgroup\markoverwith{\textcolor{purple}{\rule[0.5ex]{2pt}{1pt}}}\ULon{#1}}
 
 
+\usepackage{eso-pic}
+\beamertemplatenavigationsymbolsempty
+\newcommand\AtPagemyUpperLeft[1]{\AtPageLowerLeft{%
+\put(\LenToUnit{0.91\paperwidth},\LenToUnit{0.915\paperheight}){#1}}}
+\AddToShipoutPictureFG{
+  \AtPagemyUpperLeft{{\includegraphics[width=.8cm,keepaspectratio]{logo_ufal_165.png}}}
+}%
+
+
 %%% mtheme customisations
 % \usetheme[frametitleformat=regular,progressbar=frametitle,block=fill]{m}
 \usetheme[progressbar=frametitle]{m}
@@ -91,6 +100,7 @@ emphstyle={\color{OliveGreen}\bfseries}
 
 
 \title{{Extracting Knowledge from Dialogue}}
+\titlegraphic{logo_ufal_165.png}
 
 
 \author{Ondřej Plátek \\ \footnotesize{\texttt{oplatek@ufal.mff.cuni.cz}}}
