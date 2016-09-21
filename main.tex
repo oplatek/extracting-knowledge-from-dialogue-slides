@@ -7,39 +7,40 @@
 \usepackage{comment}
 \usepackage{tikzsymbols}
 
+\def\area#1{{\color{darkgreen}area:\it #1}}
+\def\food#1#2{{Dial. state #1: \color{blue}food:\it #2}}
+\def\pricerange#1{{\color{orange}pricerange:\it #1}}
+\def\sys#1{{\color{purple}System: \it #1}}
+\def\usr#1{{\color{brown}User: \it #1}}
+\def\api#1{{\color{blue}DB annotations: \it #1}}
 
 % OP - Ondrej Platek inline 
 \definecolor{purple}{RGB}{200,0,200}
 \def\OP#1{{\color{purple}OP: \it #1}}
 \def\OPdel#1{\bgroup\markoverwith{\textcolor{purple}{\rule[0.5ex]{2pt}{1pt}}}\ULon{#1}}
 
-% %%% mtheme customisations
-% \usetheme[progressbar=frametitle,block=fill]{m}
-% \setmonofont[Scale=0.92]{Fira Mono}
-% \AtBeginSubsection{
-% \metroset{color/background=dark}
-% \frame[plain,c]{
-%   \begin{center}
-%   \begin{minipage}{25em}
-%     \usebeamercolor[fg]{section title}
-%     \usebeamerfont{section title}
-%     \insertsubsection\\[-1ex]
-%     \usebeamertemplate*{progress bar in section page}
-%   \end{minipage}
-%   \end{center}
-% }
-% \metroset{color/background=light}
-% }
-% %%%%% end mtheme
+
+%%% mtheme customisations
+% \usetheme[frametitleformat=regular,progressbar=frametitle,block=fill]{m}
+\usetheme[progressbar=frametitle]{m}
+\AtBeginSubsection{
+\metroset{color/background=dark}
+\frame[plain,c]{
+  \begin{center}
+  \begin{minipage}{25em}
+    \usebeamercolor[fg]{section title}
+    \usebeamerfont{section title}
+    \insertsubsection\\[-1ex]
+    \usebeamertemplate*{progress bar in section page}
+  \end{minipage}
+  \end{center}
+}
+\metroset{color/background=light}
+}
+%%%%% end mtheme
 
 \setbeamertemplate{frametitle continuation}[from second]
 \setbeamertemplate{bibliography item}[book]
-
-% \usepackage{xeCJK}
-% %\setCJKsansfont[BoldFont=Kozuka Gothic Pro]{Kozuka Gothic Pro L}
-% \setCJKsansfont{IPAGothic}
-% % \newCJKfontfamily{\xiheifont}[BoldFont=STHeiti]{STXihei}
-% \newCJKfontfamily{\xiheifont}{WenQuanYi Micro Hei}
 
 \usetikzlibrary{arrows}
 \usetikzlibrary{chains}
@@ -85,16 +86,18 @@ emphstyle={\color{OliveGreen}\bfseries}
 }
 
 \usepackage[os=win]{menukeys}
+\usepackage{notoccite}
+\usepackage[numbers,sort&compress]{natbib}
 
 
-\title{Extracting Knowledge from Dialogue}
+\title{{Extracting Knowledge from Dialogue}}
 
 
 \author{Ondřej Plátek \\ \footnotesize{\texttt{oplatek@ufal.mff.cuni.cz}}}
 \institute{
 Institute of Formal and Applied Linguistics\\
 Faculty of Mathematics and Physics\\
-Charles university in Prague
+Charles University in Prague
 }
 
 \begin{document}
@@ -103,8 +106,7 @@ Charles university in Prague
 
 \section{Motivation}
 
-\begin{frame}
-    \frametitle{Why end-to-end system?}
+\begin{frame}\frametitle{Why end-to-end system?}
     \begin{columns}
         \begin{column}{0.65\textwidth}
             \begin{itemize}
