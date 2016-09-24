@@ -192,6 +192,41 @@ Charles University in Prague
 
 \section{Motivation}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\begin{frame}\frametitle{End-to-end optimized task-oriented}
+\begin{columns}
+\begin{column}{0.45\textwidth}
+    {\bf Current state} \\
+    \begin{itemize}
+        \item Multiple components
+            \begin{itemize}
+                \item Often handcrafted
+                \item LU, DM, NLG 
+            \end{itemize}
+        \item Handcrafted dialogue acts
+        \item Handcrafted tens of actions
+            \begin{itemize}
+                \item Thousands of live conversation needed for reasonable policy~\cite{gasic}
+            \end{itemize}
+        \item {\bf \color{red} Non trivial expert work needed for a~baseline system on new domain}
+    \end{itemize}
+\end{column}
+\begin{column}{0.45\textwidth}
+    {\bf End-to-end vs current practice}
+    \begin{itemize}
+        \item Single statistical model
+        \item Few hundreds conversations needed for toy tasks~\cite{Wen}
+        \item Our {\bf proposed} model needs simple annotations
+        \item {\color{darkgreen} Offline data collection scheme}~\cite{Wen,Wochat}
+        \item {\bf \color{darkgreen} Easy to bootstrap a baseline with DB and few hundreds conversations}
+        \item {\bf \color{darkgreen} Fine tuning via RL}
+    \end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}\frametitle{Collecting more explicit feedback}
+   todo - hard slide 
+\end{frame}
 
 \begin{frame}\frametitle{Data for dialogue systems}
 \end{frame}
