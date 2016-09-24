@@ -105,7 +105,7 @@ emphstyle={\color{OliveGreen}\bfseries}
 \titlegraphic{logo_ufal_165.png}
 
 
-\author{{\bf Ondřej Plátek} \\ \footnotesize{\texttt{oplatek@ufal.mff.cuni.cz}} \\ supervisor: {\bf Ing. Mgr. Filip Jurčíček} }
+\author{{\bf Ondřej Plátek} \\ \footnotesize{\texttt{oplatek@ufal.mff.cuni.cz}} \\ supervisor: {\bf Ing. Mgr. Filip Jurčíček, Ph.D.} }
 \institute{
 Institute of Formal and Applied Linguistics\\
 Faculty of Mathematics and Physics\\
@@ -158,30 +158,38 @@ Charles University in Prague
 
 % TODO do not show bullet points at the first level - different colour
 \begin{frame}\frametitle{Challenges}
-    \begin{itemize}
-        \item {\bf Reply generation} given dialogue history
+    % \begin{itemize}
+        % \item 
+            {\bf \color{blue} Reply generation} given dialogue history
+            \\
             \begin{itemize}
                 \item Language variability, ambiguity, long context, \dots
             \end{itemize}
-        \item {\bf Conditioning on database} when generating reply
+        % \item 
+            {\bf \color{blue} Conditioning on database} when generating reply
+            \\
             \begin{itemize}
                 \item Representing structured knowledge in statistical models
             \end{itemize}
-        \item {\bf Datasets}
+        % \item 
+            {\bf \color{blue} Datasets}
+            \\
             \begin{itemize}
                 \item Even narrow-domain  dialogue has huge branching factor
                 \item Narrow domain $\longrightarrow$ lack of data
                 \item Each new domain has to {\bf collect specific bootstrap data}
             \end{itemize}
-        \item {\bf Lack of evaluation metrics} for dialogue response generation
+        % \item 
+            {\bf \color{blue} Lack of evaluation metrics} for dialogue response generation
+            \\
             \begin{itemize}
                 \item Datasets too small $\longrightarrow$ {\bf supervised feedback not convenient}
                 \item Task completions~\cite{todo}, appropriateness~\cite{todo}, \dots 
                 \begin{itemize}
-                    \item {\bf Weak and noisy} reinforcement {\bf signal}
+                    \item {\bf Weak and noisy} reinforcement {\bf signals}
                 \end{itemize}
             \end{itemize}
-    \end{itemize}
+    % \end{itemize}
 \end{frame}
 
 \begin{frame}{Table of contents}
@@ -192,7 +200,7 @@ Charles University in Prague
 
 \section{Motivation}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}\frametitle{End-to-end optimized task-oriented}
+\begin{frame}\frametitle{End-to-end optimized task-oriented dialogue systems}
 \begin{columns}
 \begin{column}{0.45\textwidth}
     {\bf Current state} \\
@@ -224,33 +232,46 @@ Charles University in Prague
 \end{columns}
 \end{frame}
 
-\begin{frame}\frametitle{Collecting more explicit feedback}
+\begin{frame}\frametitle{Collecting explicit feedback}
    todo - hard slide 
 \end{frame}
 
-\begin{frame}\frametitle{Data for dialogue systems}
-\end{frame}
-
-\begin{frame}\frametitle{Why an end-to-end optimized system?}
-    \begin{itemize}
-        \item Simplified architecture $\longrightarrow$ less deployment effort
-        \item Less annotations need 
-    \end{itemize}
-\end{frame}
-
-\begin{frame}\frametitle{Why learning (explicit knowledge)?}
-\end{frame}
-
-\section{First results}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Towards end-to-end system; Results}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 \begin{frame}\frametitle{Dialogue state tracking (DST)}
-    \begin{itemize}
-        \item Show data - introduce problem
-        \item Reasonably easy
-        \item Achieved accuracy XY
-        \item Basic of architecture as for end-to-end system
-    \end{itemize}
+    \food{n}{None}, \area{None}, \pricerange{None} \\
+    \sys{What part of town do you have in mind?} \\
+    \usr{West part of town.} \\
+    \food{n+1}{None}, \area{west}, \pricerange{None} \\
+    \sys{What kind of food would you like?} \\
+    \usr{Indian} \\
+    \food{n+2}{Indian}, \area{west}, \pricerange{None} \\
+    \sys{India House is a nice place in the west of town serving tasty Indian food.} \\
+    \begin{center}
+        \includegraphics[width=0.7\textwidth]{encdec}
+    \end{center}
+\end{frame}
+
+\begin{frame}\frametitle{Dialogue state tracking (DST) results}
+\begin{center}
+% \includegraphics[width=0.6\textwidth]{jointLabelsDistrib} \\
+\includegraphics[width=0.3\textwidth]{DB_features.png} \\
+\begin{tabular}{l@{\quad}rll}
+\hline
+\multicolumn{1}{l}{\rule{0pt}{12pt}
+                   {\it Model}}&\multicolumn{1}{l}{\it Dev set}&\multicolumn{2}{l}{\it Test set}\\[2pt]
+\hline\rule{0pt}{12pt}
+    {\bf \citet{platek2016recurrent} -- EncDec} &   0.867 & 0.730 \\
+\hline
+    \citet{vodolan_hybrid_2015} & - & 0.745 \\
+    \citet{zilka_incremental_2015} & 0.69 & 0.72 \\
+    \citet{henderson2013deep} & - & 0.737 \\
+\hline
+    DSTC2 stacking ensemble~\cite{henderson2014second} & - & 0.789 \\
+\hline
+\end{tabular}
+\end{center}
 \end{frame}
 
 \begin{frame}\frametitle{DST is it necessary?}
@@ -267,6 +288,8 @@ Charles University in Prague
         \item Action selection as well KB response may be obtained directly (work in progress)
     \end{itemize}
 \end{frame}
+
+% TODO backup slide complicated model which I discarded
 
 \begin{frame}\frametitle{Data collection of simplified}
 \end{frame}
@@ -287,7 +310,7 @@ Charles University in Prague
 
 \begin{frame}[allowframebreaks]
         \frametitle{References}
-        \bibliographystyle{plain}
+        \bibliographystyle{plainnat}
         \bibliography{literature.bib}
 \end{frame}
 
