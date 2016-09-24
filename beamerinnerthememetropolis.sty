@@ -55,11 +55,11 @@
     \ifx\inserttitle\@empty\else\usebeamertemplate*{title}\fi
     \ifx\insertsubtitle\@empty\else\usebeamertemplate*{subtitle}\fi
     \usebeamertemplate*{title separator}
-    \ifx\beamer@shortauthor\@empty\else\usebeamertemplate*{author}\fi
+    \large{\ifx\beamer@shortauthor\@empty\else\usebeamertemplate*{author}\fi}
     \ifx\insertinstitute\@empty\else\usebeamertemplate*{institute}\fi
     \vfill
       \begin{flushright}
-    \ifx\insertdate\@empty\else\usebeamertemplate*{date}\fi
+      \footnotesize{\ifx\insertdate\@empty\else\usebeamertemplate*{date}\fi}
       \end{flushright}
     \vspace*{1mm}
   \end{minipage}

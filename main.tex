@@ -7,6 +7,7 @@
 \usepackage{comment}
 \usepackage{tikzsymbols}
 
+\definecolor{darkgreen}{rgb}{0.0, 0.5, 0.0}
 \def\area#1{{\color{darkgreen}area:\it #1}}
 \def\food#1#2{{Dial. state #1: \color{blue}food:\it #2}}
 \def\pricerange#1{{\color{orange}pricerange:\it #1}}
@@ -100,10 +101,11 @@ emphstyle={\color{OliveGreen}\bfseries}
 
 
 \title{{Extracting Knowledge from Dialogue}}
+\subtitle{Ph.D. Thesis Proposal}
 \titlegraphic{logo_ufal_165.png}
 
 
-\author{Ondřej Plátek \\ \footnotesize{\texttt{oplatek@ufal.mff.cuni.cz}}}
+\author{{\bf Ondřej Plátek} \\ \footnotesize{\texttt{oplatek@ufal.mff.cuni.cz}} \\ supervisor: {\bf Ing. Mgr. Filip Jurčíček} }
 \institute{
 Institute of Formal and Applied Linguistics\\
 Faculty of Mathematics and Physics\\
@@ -114,40 +116,135 @@ Charles University in Prague
 
 \maketitle
 
-\section{Motivation}
 
-\begin{frame}\frametitle{Why end-to-end system?}
-    \begin{columns}
-        \begin{column}{0.65\textwidth}
+\section{Task description}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{frame}\frametitle{Narrow domain task oriented dialogues}
+    {\bf User's goal: {\it food="chinese", area="city center"}} \\
+    \vfill
+    \sys{Hello, welcome to the Cambridge restaurant system! \dots } \\
+    \usr{I would like a Chinese restaurant} \\
+    \sys{A golden house is a Chinese restaurant in the city center} \\
+    \dots
+
+    \begin{itemize}
+        \item {\bf Narrow restaurant domain}~\cite{henderson2014second} $\longrightarrow$ targeted semantics
+        \item {\bf Task oriented} $\longrightarrow$ system provides information from database (DB)
+        \item {\bf Turn based} $\longrightarrow$ user marks end of turn \& easier annotations
+        \item {\bf Goal: shallow semantics} $\longrightarrow$ able to answer most frequent types of user questions with a help of DB
             \begin{itemize}
-                \item Recurrent neural network composed of sequentially ordered cells
-                \item Maintains (encodes) hidden state and emits observation after each turn
-                \item Improved with LSTM cells
-                \item Suitable for DST task - history is taken into account
+                \item Cooperative user $\longrightarrow$ no reasoning about sensibility of users input   
+                \item {\color{darkgreen} Out-of-domain and out-of-application requests~\cite{bohus_thesis} with no special treatment} $\longrightarrow$ {\color{red} {\bf future work}}
             \end{itemize}
-        \end{column}
-        \begin{column}{0.35\textwidth}
-            \includegraphics[width=0.90\textwidth]{encoder.pdf}
-        \end{column}
-    \end{columns}
+    \end{itemize}
 \end{frame}
 
-\begin{frame}
-    \frametitle{Why learning (explicit knowledge)?}
-    \begin{columns}
-        \begin{column}{0.65\textwidth}
+\begin{frame}\frametitle{Optimizing end-to-end text-to-text dialogue}
+    \begin{itemize}
+        \item {\bf Text-to-text} $\longrightarrow$ single modality (extensible to speech)
+        \item {\bf End-to-end single model architecture} $\longrightarrow$ principled approach
             \begin{itemize}
-                \item Recurrent neural network composed of sequentially ordered cells
-                \item Maintains (encodes) hidden state and emits observation after each turn
-                \item Improved with LSTM cells
-                \item Suitable for DST task - history is taken into account
+                \item {\bf Less annotations $\longrightarrow$ easier data collection}
+                \item No cumulation of errors in pipeline
+                \item Implicitly able to model properties which used to be handcrafted 
+                \begin{itemize}
+                    \item Entrainment
+                    \item Dialogue state update - coreference resolution
+                \end{itemize}
             \end{itemize}
-        \end{column}
-        \begin{column}{0.35\textwidth}
-            \includegraphics[width=0.90\textwidth]{encoder.pdf}
-        \end{column}
-    \end{columns}
+    \end{itemize}
 \end{frame}
+
+% TODO do not show bullet points at the first level - different colour
+\begin{frame}\frametitle{Challenges}
+    \begin{itemize}
+        \item {\bf Reply generation} given dialogue history
+            \begin{itemize}
+                \item Language variability, ambiguity, long context, \dots
+            \end{itemize}
+        \item {\bf Conditioning on database} when generating reply
+            \begin{itemize}
+                \item Representing structured knowledge in statistical models
+            \end{itemize}
+        \item {\bf Datasets}
+            \begin{itemize}
+                \item Even narrow-domain  dialogue has huge branching factor
+                \item Narrow domain $\longrightarrow$ lack of data
+                \item Each new domain has to {\bf collect specific bootstrap data}
+            \end{itemize}
+        \item {\bf Lack of evaluation metrics} for dialogue response generation
+            \begin{itemize}
+                \item Datasets too small $\longrightarrow$ {\bf supervised feedback not convenient}
+                \item Task completions~\cite{todo}, appropriateness~\cite{todo}, \dots 
+                \begin{itemize}
+                    \item {\bf Weak and noisy} reinforcement {\bf signal}
+                \end{itemize}
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Table of contents}
+  \setbeamertemplate{section in toc}[sections numbered]
+  \tableofcontents[hideallsubsections]
+\end{frame}
+
+
+\section{Motivation}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{frame}\frametitle{Data for dialogue systems}
+\end{frame}
+
+\begin{frame}\frametitle{Why an end-to-end optimized system?}
+    \begin{itemize}
+        \item Simplified architecture $\longrightarrow$ less deployment effort
+        \item Less annotations need 
+    \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{Why learning (explicit knowledge)?}
+\end{frame}
+
+\section{First results}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{frame}\frametitle{Dialogue state tracking (DST)}
+    \begin{itemize}
+        \item Show data - introduce problem
+        \item Reasonably easy
+        \item Achieved accuracy XY
+        \item Basic of architecture as for end-to-end system
+    \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{DST is it necessary?}
+    \begin{itemize}
+        \item Representation used for KB query and response generation
+        \item Training feasible only supervised manner
+        \begin{itemize}
+            \item reinforcement signal would be very weak
+        \end{itemize}
+        \item Labels defined based on handcrafted ontology
+        \begin{itemize}
+            \item Hard task for crowd-source workers
+        \end{itemize}
+        \item Action selection as well KB response may be obtained directly (work in progress)
+    \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{Data collection of simplified}
+\end{frame}
+
+\section{Research directions}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{End-to-end optimized conversational model}
+\begin{frame}\frametitle{State of end-end optimization}
+\end{frame}
+
+\subsection{Data collection and wizard of Oz}
+
+
 
 % \plain{The End\\Thank you!}
 
