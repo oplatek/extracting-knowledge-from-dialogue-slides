@@ -135,7 +135,7 @@ Charles University in Prague
         \item {\bf Goal: shallow semantics} $\longrightarrow$ able to answer most frequent types of user questions with a help of DB
             \begin{itemize}
                 \item Cooperative user $\longrightarrow$ no reasoning about sensibility of users input   
-                \item {\color{darkgreen} Out-of-domain and out-of-application requests~\cite{bohus_thesis} with no special treatment} $\longrightarrow$ {\color{red} {\bf future work}}
+                \item {\color{darkgreen} Out-of-domain and out-of-application requests~\cite{bohus2007error} with no special treatment} $\longrightarrow$ {\color{red} {\bf future work}}
             \end{itemize}
     \end{itemize}
 \end{frame}
@@ -184,10 +184,13 @@ Charles University in Prague
             \\
             \begin{itemize}
                 \item Datasets too small $\longrightarrow$ {\bf supervised feedback not convenient}
-                \item Task completions~\cite{todo}, appropriateness~\cite{todo}, \dots 
+                \item Task completion, appropriateness~\cite{bohus2007error}, \dots 
                 \begin{itemize}
-                    \item {\bf Weak and noisy} reinforcement {\bf signals}
+                    \item Human judgement needed \item {\bf Weak and noisy} reinforcement {\bf signals}
                 \end{itemize}
+            \item Bleu~\cite{papineni_bleu_2002}, Next utterance classification~\cite{lowe_evaluation_2016}, Word perplexity
+                ~\cite{mikolov_recurrent_2010} 
+                does not correlate well with human judgements
             \end{itemize}
     % \end{itemize}
 \end{frame}
@@ -213,7 +216,7 @@ Charles University in Prague
         \item Handcrafted dialogue acts
         \item Handcrafted tens of actions
             \begin{itemize}
-                \item Thousands of live conversation needed for reasonable policy~\cite{gasic}
+                \item Thousands of live conversation needed for reasonable policy~\cite{gasic_line_2011}
             \end{itemize}
         \item {\bf \color{red} Non trivial expert work needed for a~baseline system on new domain}
     \end{itemize}
@@ -222,9 +225,9 @@ Charles University in Prague
     {\bf End-to-end vs current practice}
     \begin{itemize}
         \item Single statistical model
-        \item Few hundreds conversations needed for toy tasks~\cite{Wen}
+        \item Few hundreds conversations needed for toy tasks~\cite{wen_networkbased_2016}
         \item Our {\bf proposed} model needs simple annotations
-        \item {\color{darkgreen} Offline data collection scheme}~\cite{Wen,Wochat}
+        \item {\color{darkgreen} Offline data collection scheme}~\cite{wen_networkbased_2016,platek2016wochat}
         \item {\bf \color{darkgreen} Easy to bootstrap a baseline with DB and few hundreds conversations}
         \item {\bf \color{darkgreen} Fine tuning via RL}
     \end{itemize}
@@ -375,37 +378,112 @@ Charles University in Prague
     \begin{itemize}
         \item Experiment to test reinforcement learning algorithms on DSTC2 data
         \item Insight how to combine supervised pre training and reinforcement learning
-        \item Further insight in DST2 data 
+        \item Further insight into data: What is easy? What is important?
     \end{itemize}
 \end{frame}
 
+\begin{frame}\frametitle{End-to-end NN conversational model}
+    {\bf Goal --- Big picture}
+    \begin{itemize}
+        \item Train joint prediction of reply templates and correct row information 
+        \item Fine tune it using Reinforcement Learning (RL) on golden offline data
+        \item Further obvious experiments
+        \begin{itemize}
+            \item Access database using standard DB API and train end-to-end model using RL even given non differentiable loss function
+            \item Predict reward function/misunderstanding rate using dialogue history and combination of heuristics
+            \item Automate annotation collection using active dialogue policy
+        \end{itemize}
+    \end{itemize}
+\end{frame}
 
 \subsection{Data collection and Wizards of Oz}
 
-
-\begin{frame}\frametitle{Predicting misunderstanding}
-    Collect followup conversation after artificial introduced misunderstanding \\
-    Predicting misunderstanding from the followup conversations \\
-    TODO
+\begin{frame}\frametitle{Data collections}
+    We focus on optimizing neural networks with {\bf minimal annotations}. \ldots A {\bf data hungry} approach. \\
+    {\footnotesize \it \dots V textu práce se ale nediskutuje, jestli jsou taková data (v potřebném množství) dostupná, případně jak je získat. Jejich dostupnost je pro další experimentování zásadní.}
+    
+    {\bf \color{darkgreen} Solution:}\\
+    \begin{enumerate}
+        \item {\bf Reducing the problem} to a single narrow domain, task oriented (toy) problem.
+            \begin{itemize}
+                \item \citet{wen_networkbased_2016} showed that 500 dialogues is enough on simplified DSTC2 data
+            \end{itemize}
+        \item {\bf Crowd-sourcing} -- scalable data collection
+        \item Our research topic; How to {\bf bootstrap a system} and start {\bf collecting data and light annotations?}
+    \end{enumerate}
 \end{frame}
 
-\begin{frame}\frametitle{Data and label augmentation}
-    TODO
+
+\begin{frame}\frametitle{Predicting misunderstanding}
+    TODO example/picture
+    \begin{enumerate}
+        \item {\bf Positive examples collection}: Collect followup conversation after artificial nonsensical reply \\
+        \item {\bf Challenges}: Predict dialogue misunderstanding from single reply or very variable follow-up conversation \\ 
+        \item {\bf Why}: Special policies for handling misunderstanding based on the Wizard of Oz data 
+    \end{enumerate}
+    Predicting misunderstanding from the followup conversations
+\end{frame}
+
+\begin{frame}\frametitle{Data augmentation through exploration}
+    {\bf Problem:}
+    \begin{itemize}
+        \item Conversations vary a lot after first few turns
+        \item Data collection is not targeted to system policy
+    \end{itemize}
+    {\bf Solution:} \\
+    \begin{enumerate}
+        \item Use gold data conversations and trained model   
+        \item From a conversation select one~system reply for a~replacement
+            \begin{itemize}
+                \item Trained model has to be confident providing alternative
+            \end{itemize}
+        \item Generate an~alternative reply using the model
+        \item Collect completely new human-human conversation 
+    \end{enumerate}
 \end{frame}
 
 \section{Summary}
 
-\begin{frame}\frametitle{Motivation and current state}
-    TODO
+\begin{frame}\frametitle{Motivation and results}
+    \begin{enumerate}
+        \item Shift expert work from dialogue policy design to better data collection 
+        \begin{itemize}
+            \item No handcrafting features for dialogue state tracking~\cite{platek_recurrent_2016}
+            \item Feasible (crowd-source) data collection~\cite{platek2016wochat}
+        \end{itemize}
+        \item Single end-to-end model to optimize
+            \item Template learning --- easy (informal experiments)
+            \item Row selection --- work in progress
+            \item Single model -- future work
+    \end{enumerate}
 \end{frame}
 
 \begin{frame}\frametitle{Future work}
-    TODO
+    \begin{enumerate}
+        \item Improve problematic (misunderstood) replies
+            \begin{itemize}
+                \item Detect misunderstanding
+                \item Collect more annotation and data examples to handle them better
+            \end{itemize}
+        \item Improve the end-to-end modeling of dialogue
+            \begin{itemize}
+                \item Reinforcement learning for over coming non differentiable loss functions
+                \item Reinforcement learning from delayed and noisy feedback
+            \end{itemize}
+    \end{enumerate}
 \end{frame}
 
 
 
-\plain{Thank you! \\ Questions?}
+\plain{Thank you for your attention}
+
+\begin{frame}\frametitle{Thank your for your attention}
+    {\bf \large \it Questions?} \\
+    \vfill
+    Content: \\
+  \setbeamertemplate{section in toc}[sections numbered]
+  \tableofcontents
+\end{frame}
 
 \appendix
 
