@@ -8,6 +8,7 @@
 \usepackage{tikzsymbols}
 
 \definecolor{darkgreen}{rgb}{0.0, 0.5, 0.0}
+\definecolor{purple}{RGB}{200,0,200}
 \def\area#1{{\color{darkgreen}area:\it #1}}
 \def\food#1#2{{Dial. state #1: \color{blue}food:\it #2}}
 \def\pricerange#1{{\color{orange}pricerange:\it #1}}
@@ -16,9 +17,17 @@
 \def\api#1{{\color{blue}DB annotations: \it #1}}
 
 % OP - Ondrej Platek inline 
-\definecolor{purple}{RGB}{200,0,200}
 \def\OP#1{{\color{purple}OP: \it #1}}
 \def\OPdel#1{\bgroup\markoverwith{\textcolor{purple}{\rule[0.5ex]{2pt}{1pt}}}\ULon{#1}}
+
+% OD - Ondrej Dusek
+\def\OD#1{{\color{darkgreen}OD: \it #1}}
+\def\ODdel#1{\bgroup\markoverwith{\textcolor{darkgreen}{\rule[0.5ex]{2pt}{1pt}}}\ULon{#1}}
+
+% MV - Miroslav Vodolan
+\definecolor{darkblue}{rgb}{0.0, 0.20, 0.85}
+\def\MV#1{{\color{darkblue}MV: \it #1}}
+\def\MVdel#1{\bgroup\markoverwith{\textcolor{darkblue}{\rule[0.5ex]{2pt}{1pt}}}\ULon{#1}}
 
 
 \usepackage{eso-pic}
