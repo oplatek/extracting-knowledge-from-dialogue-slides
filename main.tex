@@ -1,3 +1,8 @@
+% feedback
+% nepouzivat jednotne a mnozne cislo
+% vypilovat prvni slajd - task description a cil
+% nerikat motivace
+% vyhodit reinforcement learning
 \RequirePackage{silence}
 \documentclass[10pt, compress,british,xcolor={svgnames,dvipsnames,x11names},trans]{beamer}
 
@@ -220,6 +225,7 @@ Charles University in Prague
     {\bf Our holy grail } \\
     {\bf \color{darkgreen} 1-3 steps of v1.0} \\
     \begin{enumerate}
+        \setcounter{enumi}{4}
         \item Launch live \& {\bf collect data + annotations} \& {\it Explore with RL}
         \item Validate annotations
         \item Go to step~\ref{it_train}
@@ -378,7 +384,7 @@ Charles University in Prague
         \item Workers add one response after reading dialogue history  
         \item Two roles: user and operator 
         \item Annotations mainly from operator
-        \item Successfully used for extending DSTC~\cite{wen_networkbased_2016}
+        \item Successfully used for extending DSTC2~\cite{wen_networkbased_2016}
     \end{itemize}
 \end{column}
 \end{columns}
@@ -422,9 +428,9 @@ Charles University in Prague
     Using Encoder-decoder RNN with objective for easy-first decoding of~dialogue state labels  \\
     \includegraphics[width=0.6\textwidth]{encdec_easy}
     \begin{itemize}
-        \item Experiment to test reinforcement learning algorithms on DSTC2 data
-        \item Insight how to combine supervised pre training and reinforcement learning
+        \item Insight how to combine supervised pre training with cross-entropy loss and reinforcement learning with exact match non-differentiable loss function
         \item Further insight into data: What is easy? What is important?
+        \item Experiment to test reinforcement learning algorithms on DSTC2 data
     \end{itemize}
 \end{frame}
 
@@ -437,22 +443,22 @@ Charles University in Prague
     \end{center}
 \end{frame}
 
-\begin{frame}\frametitle{End-to-end NN conversational model}
-    {\bf Goal --- Big picture}
-    \begin{itemize}
-        \item Train joint prediction of response templates and database row prediction 
-        \item Fine tune it using Reinforcement Learning (RL) on golden offline data
-            \begin{itemize}
-                \item Direct evaluation metric optimization
-            \end{itemize}
-        \item Further obvious experiments
-        \begin{itemize}
-            \item Access database using standard DB API and train end-to-end model using RL even given non differentiable loss function
-            \item Predict reward function/misunderstanding rate using dialogue history and combination of heuristics
-            \item Automate annotation collection using active dialogue policy
-        \end{itemize}
-    \end{itemize}
-\end{frame}
+% \begin{frame}\frametitle{End-to-end NN conversational model}
+%     {\bf Goal --- Big picture}
+%     \begin{itemize}
+%         \item Train joint prediction of response templates and database row prediction 
+%         \item Fine tune it using Reinforcement Learning (RL) on golden offline data
+%             \begin{itemize}
+%                 \item Direct evaluation metric optimization
+%             \end{itemize}
+%         \item Further obvious experiments
+%         \begin{itemize}
+%             \item Access database using standard DB API and train end-to-end model using RL even given non differentiable loss function
+%             \item Predict reward function/misunderstanding rate using dialogue history and combination of heuristics
+%             \item Automate annotation collection using active dialogue policy
+%         \end{itemize}
+%     \end{itemize}
+% \end{frame}
 
 
 \subsection{What next?}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -469,20 +475,21 @@ Charles University in Prague
 \end{frame}
 
 \begin{frame}\frametitle{Data augmentation through exploration}
-    {\bf Problem:}
+    {\bf Problem:} \hfill \includegraphics[width=0.4\textwidth]{./misunderstaning}
     \begin{itemize}
         \item Conversations vary a lot after first few turns
-        \item Data collection is not targeted to system policy
+        \item System policy differs from gold human-human conversations
     \end{itemize}
     {\bf Solution:} \\
     \begin{enumerate}
-        \item Use gold data conversations and trained model   
-        \item From a conversation select one~system response for a~replacement
+        \item Use gold data conversations and train model   
+        \item From a conversation choose an operator response where trained model
             \begin{itemize}
-                \item Trained model has to be confident providing alternative
+                \item predict different response than the gold response
+                \item is uncertain among top multiple responses
             \end{itemize}
-        \item Generate an~alternative response using the model
-        \item Collect completely new human-human conversation 
+        \item Replace a~gold response with a~system response
+        \item Collect the~follow up conversation using offline collection scheme  
     \end{enumerate}
 \end{frame}
 
@@ -512,7 +519,6 @@ Charles University in Prague
         \item Improve the end-to-end modeling of dialogue
             \begin{itemize}
                 \item Reinforcement learning for optimizing non differentiable evaluation measures directly
-                \item Reinforcement learning from delayed and noisy feedback
             \end{itemize}
     \end{enumerate}
 \end{frame}
