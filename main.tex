@@ -128,32 +128,26 @@ Charles University in Prague
 
 \begin{document}
 
+% Dobry den, jmenuji se Ondrej Platek a rad bych vam predstavil teze me disertacni prace, ktera se zabyva extrahovanim informaci z dialogu.
+% Muj vedouci je Filip Jurcicek.
 \maketitle
 
-\begin{frame}\frametitle{Task description -- Narrowing topic of my research}
+
+% Cilem prace je vyvinout statisticky model pro informacni dialogove systemy ktery bude trenovatelny ciste pomoci data driven metod. 
+% Data pro statisticky model musi byt snadno ziskatelna a proto pro nas model chceme pouzit textove prepisy dialogu s minimalnimi anotacemi.
+% Prikladem takovych anotaci pro informacni systemy, kterymi se zabyvam, josu dotazy do databaze.
+% Mym svatym gralem je navrhnout takovy statisticky model, ktery lze nasadit s minimem dat a ktery si dalsi data a anotace pro svoje zlepseni bude sbirat sam.
+\begin{frame}\frametitle{Topic of my research}
+    {\bf \color{darkgreen} Goal: Pure data driven dialogue system trained on simple data}
+    \begin{itemize}
+        \item Dialogue transcriptions --- easy to get training data
+        \item Access to system's database --- useful natural annotations         
+        \item Holy grail: extracting annotations automatically through dialogue 
+    \end{itemize}
     {\bf \color{red} Problem: Deploying a dialogue system is laborious process}
     \begin{itemize}
         \item Not solved: adaption to other domains, tasks and architectures
         \item Thousands of human-machine conversations needed
-    \end{itemize}
-    {\bf Settings:}
-    \begin{itemize}
-        \item Text-to-text conversations
-        \item Task oriented --- informational (information stored in database)
-            \begin{itemize}
-                \item Operator \& user interlocutors
-            \end{itemize}
-        \item Narrow domain --- Restaurant domain
-    \end{itemize}
-    {\bf \color{darkgreen} Solution: Easy to deploy system which collects explicit information}
-    \begin{itemize}
-        \item {\color{darkgreen} End-to-end text-to-text dialogue \& data collection scheme}
-    \end{itemize}
-
-    {\bf Tools:}
-    \begin{itemize}
-        \item Neural Networks for training end-to-end statistical model
-        \item Crowd-sourcing for data and feedback collection
     \end{itemize}
 \end{frame}
 
@@ -165,23 +159,30 @@ Charles University in Prague
 
 \section{Motivation}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% Rikat end-to-end ale na zacatek vysvetlit co to je
 \begin{frame}\frametitle{End-to-end optimized task-oriented dialogue systems}
 \begin{columns}
 \begin{column}{0.45\textwidth}
-    {\bf Current state} \\
+    {\bf Current state} 
     \begin{itemize}
-        \item Multiple components
+        \item Components handcrafted
+        \item Handcrafted interfaces among components 
+        \item Learned action selection
             \begin{itemize}
-                \item Often handcrafted
-                \item LU, DM, NLG 
-            \end{itemize}
-        \item Handcrafted dialogue acts
-        \item Handcrafted tens of actions
-            \begin{itemize}
+                \item Handcrafted tens of dialogue actions
                 \item Thousands of live conversation needed for reasonable policy~\cite{gasic_line_2011}
             \end{itemize}
         \item {\bf \color{red} Non trivial expert work needed for a~baseline system on a~new domain}
     \end{itemize}
+\end{column}
+\begin{column}{0.2\textwidth}
+        \begin{center} 
+            \includegraphics[width=0.9\textwidth]{arch.png} \\
+        \end{center}
+            \vfill
+        \begin{center} 
+            \includegraphics[width=0.9\textwidth]{./encdecdb.pdf} 
+        \end{center}
 \end{column}
 \begin{column}{0.45\textwidth}
     {\bf End-to-end proposed model}
@@ -191,45 +192,8 @@ Charles University in Prague
         \item Our {\bf proposed} model needs simple annotations
         \item {\color{darkgreen} Offline data collection scheme}~\cite{wen_networkbased_2016,platek2016wochat}
         \item {\bf \color{darkgreen} Easy to bootstrap a baseline with DB and few hundreds conversations}
-        \item {\bf \color{darkgreen} Fine tuning via RL}
+        % \item {\bf \color{darkgreen} Fine tuning via RL}
     \end{itemize}
-\end{column}
-\end{columns}
-\end{frame}
-
-\begin{frame}\frametitle{Scalable deployment}
-\begin{columns}
-\begin{column}{0.33\textwidth}
-    {\bf Current approach } \\
-    \begin{enumerate}
-        \item\label{it_hand} {\bf \color{red} Handcraft baseline}
-        \item Launch live \& {\bf collect data}
-        \item {\it Fine-tune with RL}
-        \item Detect errors
-        \item Go to step~\ref{it_hand}.
-    \end{enumerate}
-\end{column}
-\begin{column}{0.33\textwidth}
-    {\bf Our approach v1.0 } \\
-    \begin{enumerate}
-        \item {\bf \color{darkgreen} Collect human-human conversations}
-        \item\label{it_select} {\bf \color{darkgreen} Annotate relevant data}
-        \item\label{it_train} {\bf \color{darkgreen} Train model}
-        \item Launch live \& {\bf collect data}
-        \item {\it Fine-tune with RL}
-        \item Detect errors
-        \item Go to step~\ref{it_select}.
-    \end{enumerate}
-\end{column}
-\begin{column}{0.33\textwidth}
-    {\bf Our holy grail } \\
-    {\bf \color{darkgreen} 1-3 steps of v1.0} \\
-    \begin{enumerate}
-        \setcounter{enumi}{4}
-        \item Launch live \& {\bf collect data + annotations} \& {\it Explore with RL}
-        \item Validate annotations
-        \item Go to step~\ref{it_train}
-    \end{enumerate}
 \end{column}
 \end{columns}
 \end{frame}
@@ -246,17 +210,23 @@ Charles University in Prague
         \item {\bf Narrow restaurant domain}~\cite{henderson2014second} $\longrightarrow$ targeted semantics
         \item {\bf Task oriented} $\longrightarrow$ system provides information from database (DB)
         \item {\bf Turn based} $\longrightarrow$ user marks end of turn \& easier annotations
-        \item {\bf Goal: shallow semantics} $\longrightarrow$ able to answer most frequent types of user questions with a help of DB
-            \begin{itemize}
-                \item Cooperative user $\longrightarrow$ no reasoning about sensibility of users input   
-                \item {\color{darkgreen} Out-of-domain and out-of-application requests~\cite{bohus2007error} with no special treatment} $\longrightarrow$ {\color{red} {\bf future work}}
-            \end{itemize}
+        \item {\bf Shallow semantics} $\longrightarrow$ able to answer most frequent types of in-domain user questions with a help of DB
+            % \begin{itemize}
+                % \item Cooperative user $\longrightarrow$ no reasoning about sensibility of users input   
+                % \item {\color{darkgreen} Out-of-domain and out-of-application requests~\cite{bohus2007error} with no special treatment} $\longrightarrow$ {\color{red} {\bf future work}}
+            % \end{itemize}
     \end{itemize}
+
+    {\bf \large \color{darkgreen} Feasible! \citet{wen_networkbased_2016}}
 \end{frame}
 
-\begin{frame}\frametitle{Optimizing end-to-end text-to-text dialogue}
+\begin{frame}\frametitle{Focus: end-to-end text-to-text dialogue}
+    % pozitivne a asr se zlepsuje rychleji nez DM a chatboti
     \begin{itemize}
         \item {\bf Text-to-text} $\longrightarrow$ single modality (extensible to speech)
+            \begin{itemize}
+                \item ASR matures 
+            \end{itemize}
         \item {\bf End-to-end single model architecture} $\longrightarrow$ principled approach
             \begin{itemize}
                 \item {\bf Less annotations $\longrightarrow$ easier data collection}
@@ -267,51 +237,21 @@ Charles University in Prague
                     \item Dialogue state update - coreference resolution
                 \end{itemize}
             \end{itemize}
+        \item {\bf Conditioning on database} when generating response 
     \end{itemize}
-\end{frame}
-
-\begin{frame}\frametitle{Challenges}
-    % \begin{itemize}
-        % \item 
-            {\bf \color{blue} Reply generation} given dialogue history
-            \\
-            \begin{itemize}
-                \item Language variability, ambiguity, long context, \dots
-            \end{itemize}
-        % \item 
-            {\bf \color{blue} Conditioning on database} when generating response 
-            \\
-            \begin{itemize}
-                \item Representing structured knowledge in statistical models
-            \end{itemize}
-        % \item 
-            {\bf \color{blue} Datasets}
-            \\
-            \begin{itemize}
-                \item Even narrow-domain  dialogue has huge branching factor
-                \item Narrow domain $\longrightarrow$ lack of data
-                \item Each new domain has to {\bf collect specific bootstrap data}
-            \end{itemize}
-        % \item 
-            {\bf \color{blue} Lack of evaluation metrics} for dialogue response generation
-            \\
-            \begin{itemize}
-                \item Datasets too small $\longrightarrow$ {\bf hard to train supervised models}
-                \item Task completion, appropriateness~\cite{bohus2007error}, \dots 
-                \begin{itemize}
-                    \item Human judgement needed \item {\bf Weak and noisy} reinforcement {\bf signals}
-                \end{itemize}
-            \item Bleu~\cite{papineni_bleu_2002}, Next utterance classification~\cite{lowe_evaluation_2016}, Word perplexity
-                ~\cite{mikolov_recurrent_2010} 
-                does not correlate well with human judgements
-            \end{itemize}
-    % \end{itemize}
 \end{frame}
 
 \section{Towards end-to-end system; Results}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\begin{frame}\frametitle{Dialogue state tracking (DST)}
+% FIXME why
+\begin{frame}\frametitle{(1) Dialogue state tracking (DST)}
+    % PROC JSEM TO DELAL
+    % NERESIT model, proc DST - arguemnty pro databazi
+    % jak definovat dialogovy stav
+    % dokazu vyvorit latentni reprezentaci
+    % udealal jsem prvni krok - proto abych mohl vygenerovat odpoved
+    % overil jsem dostatecne informativni model ze takovy model je schopny reprezentovat tento stav
     \food{n}{None}, \area{None}, \pricerange{None} \\
     \sys{What part of town do you have in mind?} \\
     \usr{West part of town.} \\
@@ -325,13 +265,17 @@ Charles University in Prague
     \end{center}
 \end{frame}
 
-\begin{frame}\frametitle{Dialogue state tracking (DST) results}
+\begin{frame}\frametitle{(1) Dialogue state tracking (DST) results}
 \begin{center}
 % \includegraphics[width=0.6\textwidth]{jointLabelsDistrib} \\
 % \includegraphics[width=0.3\textwidth]{DB_features.png} \\
-   {\bf No handcrafted ontology needed for abstraction} \\
-        Replaced by database features
 
+   % 
+   % {\bf No handcrafted ontology needed for abstraction} \\
+   %      Replaced by database features
+
+    % FIXME enough informative for representing dialogue history verified
+    % FIXME delal, kde jsem publikoval, co jsem nasel
     {\bf Learned to encode dialogue state into latent space} \\
         Used as a building block for an end-to-end system
     % {\bf Binary features} for each word firing for words are substring of named entity from {\bf database} column. \\
@@ -353,62 +297,26 @@ Charles University in Prague
 \end{center}
 \end{frame}
 
-\begin{frame}\frametitle{Is explicit dialogue state necessary?}
+% FIXME informal experiment why, what I have find?
+% FIXME delexilazilovany - abstrahovany vety
+% FIXME co je delezilolavnae
+\begin{frame}\frametitle{(2) Can I train a single end-to-end model? }
+    End-to-end model trained from dialogue history (words, informal experiment)
     \begin{itemize}
-        \item For response generation? $\longrightarrow$ {\bf No} {\footnotesize (XY \% OK, 0.XY \% acc)}
-        \item For querying database? $\longrightarrow$ {\bf Yes\cite{wen_networkbased_2016} --- Goal eliminate it}
+        \item generate valid response? $\longrightarrow$ {\bf Yes} {\footnotesize (81 \% OK, 37 \% abstracted full match)}
+        \item generate correct facts? $\longrightarrow$ {\bf No} {\footnotesize (Named entity types are correct)} 
+            \begin{itemize}
+                \item Problem: Complicated DB model $\longrightarrow$ {\bf annotations will help!}
+            \end{itemize}
     \end{itemize}
     \includegraphics[width=0.7\textwidth]{./encdecdb.pdf} \\
     {\bf input:} {\it anatolia serves turkish food in the moderate price range what is the phone number and address} \\
     {\bf decoded:} {\it The phone number of {\bf meghna} is {\bf 01223 727410} . EOS} \\
-    {\bf target:} {\it The phone number of anatolia is {\bf 01223 362372} and it is on 30 Bridge Street City Centre . EOS } \\
+    {\bf target:} {\it The phone number of {\bf anatolia} is {\bf 01223 362372} and it is on 30 Bridge Street City Centre . EOS } \\
 \end{frame}
 
-\begin{frame}\frametitle{Human-human conversation collection}
-\begin{columns}
-\begin{column}{0.45\textwidth}
-    {\bf Wizard of Oz} \\
-    \begin{itemize}
-        \item Communication in real-time 
-        \item Hard to pair users and wizards
-        \item Wizards respond using a~provided interface
-            \begin{itemize}
-                \item Wizards training required 
-                \item Often still slow  
-            \end{itemize}
-    \end{itemize}
-\end{column}
-\begin{column}{0.45\textwidth}
-    {\bf Offline collection scheme}
-    \begin{itemize}
-        \item Workers add one response after reading dialogue history  
-        \item Two roles: user and operator 
-        \item Annotations mainly from operator
-        \item Successfully used for extending DSTC2~\cite{wen_networkbased_2016}
-    \end{itemize}
-\end{column}
-\end{columns}
-\end{frame}
-
-\begin{frame}\frametitle{Crowd-source worker user interface}
-    \begin{center}
-    \includegraphics[width=0.85\textwidth]{./gui-annotators-client.png}
-    \end{center}
-\end{frame}
-
-\begin{frame}\frametitle{Crowd-source worker operator interface}
-    \begin{center}
-    \includegraphics[width=0.85\textwidth]{./gui-annotators-system.png}
-    \end{center}
-\end{frame}
-
-
-
-\section{Research directions}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}\frametitle{Data collections in our approach}
-    We focus on optimizing neural networks with {\bf minimal annotations}. \ldots A {\bf data hungry} approach. \\
-    {\footnotesize \it \dots V textu práce se ale nediskutuje, jestli jsou taková data (v potřebném množství) dostupná, případně jak je získat. Jejich dostupnost je pro další experimentování zásadní.}
+\begin{frame}\frametitle{(3) Data collections in our approach}
+    {\color{red}Problem: The less annotation is used the more data is needed}
     
     {\bf \color{darkgreen} Solution:}\\
     \begin{enumerate}
@@ -416,15 +324,63 @@ Charles University in Prague
             \begin{itemize}
                 \item \citet{wen_networkbased_2016} showed that 500 dialogues is enough on simplified DSTC2 data
             \end{itemize}
-        \item {\bf Crowd-sourcing} -- scalable data collection
-        \item Our research topic; How to {\bf bootstrap a system} and start {\bf collecting data and light annotations?}
+        \item {\bf Crowd-sourcing} -- scalable data collection~(\citet{platek2016wochat,wen_networkbased_2016})
+            \begin{itemize}
+                \item {\bf \color{darkgreen} The less annotation we use the faster the data is collected!}
+                \item Only easy to explain \& natural annotations!
+                \item Successfully used for extending DSTC2~\cite{wen_networkbased_2016}
+            \end{itemize}
     \end{enumerate}
 \end{frame}
+
+\begin{frame}\frametitle{(3) User interface for crowd-sourcing}
+\begin{columns}
+\begin{column}{0.50\textwidth}
+    \includegraphics[width=1.10\textwidth]{./gui-annotators-client.png}
+\end{column}
+\begin{column}{0.50\textwidth}
+    \includegraphics[width=1.00\textwidth]{./gui-annotators-system.png}
+\end{column}
+\end{columns}
+    \begin{itemize}
+        \item Single reply $\longrightarrow$ no hurry
+        \item No need to synchronize operator and user
+        \item {\it \color{darkgreen} Easy to explain annotations. Natural workflow.}
+    \end{itemize}
+\end{frame}
+
+
+% \begin{frame}\frametitle{(3) Human-human conversation collection}
+% \begin{columns}
+% \begin{column}{0.45\textwidth}
+%     {\bf Wizard of Oz} \\
+%     \begin{itemize}
+%         \item Communication in real-time 
+%         \item Hard to pair users and wizards
+%         \item Wizards respond using a~provided interface
+%             \begin{itemize}
+%                 \item Wizards training required 
+%                 \item Often still slow  
+%             \end{itemize}
+%     \end{itemize}
+% \end{column}
+% \begin{column}{0.45\textwidth}
+%     {\bf Offline collection scheme}
+%     \begin{itemize}
+%         \item Workers add one response after reading dialogue history  
+%         \item Two roles: user and operator 
+%         \item Annotations mainly from operator
+%     \end{itemize}
+% \end{column}
+% \end{columns}
+% \end{frame}
+
+\section{Future directions}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 \subsection{End-to-end optimized conversational model}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}\frametitle{Easy first decoding for dialogue state tracking}
+\begin{frame}\frametitle{(a) Easy first decoding for dialogue state tracking}
     Using Encoder-decoder RNN with objective for easy-first decoding of~dialogue state labels  \\
     \includegraphics[width=0.6\textwidth]{encdec_easy}
     \begin{itemize}
@@ -434,7 +390,7 @@ Charles University in Prague
     \end{itemize}
 \end{frame}
 
-\begin{frame}\frametitle{Neural network for DB row prediction}
+\begin{frame}\frametitle{(b) Neural network for DB row prediction}
     \begin{center}
     We are able to generate templates \\
     {\bf A correct row required to fill named entities from database}
@@ -443,27 +399,10 @@ Charles University in Prague
     \end{center}
 \end{frame}
 
-% \begin{frame}\frametitle{End-to-end NN conversational model}
-%     {\bf Goal --- Big picture}
-%     \begin{itemize}
-%         \item Train joint prediction of response templates and database row prediction 
-%         \item Fine tune it using Reinforcement Learning (RL) on golden offline data
-%             \begin{itemize}
-%                 \item Direct evaluation metric optimization
-%             \end{itemize}
-%         \item Further obvious experiments
-%         \begin{itemize}
-%             \item Access database using standard DB API and train end-to-end model using RL even given non differentiable loss function
-%             \item Predict reward function/misunderstanding rate using dialogue history and combination of heuristics
-%             \item Automate annotation collection using active dialogue policy
-%         \end{itemize}
-%     \end{itemize}
-% \end{frame}
-
 
 \subsection{What next?}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}\frametitle{Predicting misunderstanding}
+\begin{frame}\frametitle{(I.) Predicting misunderstanding}
     \begin{center}
     \includegraphics[width=0.7\textwidth]{./misunderstaning}
     \end{center}
@@ -474,7 +413,7 @@ Charles University in Prague
     \end{enumerate}
 \end{frame}
 
-\begin{frame}\frametitle{Data augmentation through exploration}
+\begin{frame}\frametitle{(II.) Data augmentation through exploration}
     {\bf Problem:} \hfill \includegraphics[width=0.4\textwidth]{./misunderstaning}
     \begin{itemize}
         \item Conversations vary a lot after first few turns
@@ -495,6 +434,7 @@ Charles University in Prague
 
 \section{Summary}
 
+% Oddelit motivaci a vysledky 
 \begin{frame}\frametitle{Motivation and results}
     \begin{enumerate}
         \item Shift expert work from dialogue policy design to better data collection 
@@ -509,6 +449,7 @@ Charles University in Prague
     \end{enumerate}
 \end{frame}
 
+% Pridat slajd na co se chystam a co jsem uz udelal
 \begin{frame}\frametitle{Future work}
     \begin{enumerate}
         \item Improve problematic (misunderstood) replies
@@ -545,6 +486,111 @@ Charles University in Prague
         \frametitle{References}
         \bibliographystyle{plainnat}
         \bibliography{literature.bib}
+\end{frame}
+
+\begin{frame}\frametitle{Challenges}
+    % \begin{itemize}
+        % \item 
+            {\bf \color{blue} Reply generation} given dialogue history
+            \\
+            \begin{itemize}
+                \item Language variability, ambiguity, long context, \dots
+            \end{itemize}
+        % \item 
+            {\bf \color{blue} Conditioning on database} when generating response 
+            \\
+            \begin{itemize}
+                \item Representing structured knowledge in statistical models
+            \end{itemize}
+        % \item 
+            {\bf \color{blue} Datasets}
+            \\
+            \begin{itemize}
+                \item Even narrow-domain  dialogue has huge branching factor
+                \item Narrow domain $\longrightarrow$ lack of data
+                \item Each new domain has to {\bf collect specific bootstrap data}
+            \end{itemize}
+            \item {\bf \color{blue} Conditioning on database} when generating response 
+            {\bf \color{blue} Lack of evaluation metrics} for dialogue response generation
+            \\
+            \begin{itemize}
+                \item Datasets too small $\longrightarrow$ {\bf hard to train supervised models}
+                \item Task completion, appropriateness~\cite{bohus2007error}, \dots 
+                \begin{itemize}
+                    \item Human judgement needed \item {\bf Weak and noisy} reinforcement {\bf signals}
+                \end{itemize}
+            \item Objective metrics 
+                % BLEU~\cite{papineni_bleu_2002}, Next utterance classification~\cite{lowe_evaluation_2016}, Word perplexity ~\cite{mikolov_recurrent_2010}  % rict
+                do not correlate well with human judgements
+            \end{itemize}
+    % \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{Scalable deployment}
+\begin{columns}
+\begin{column}{0.33\textwidth}
+    {\bf Current approach } \\
+    \begin{enumerate}
+        \item\label{it_hand} {\bf \color{red} Handcraft a~baseline}
+        \item Launch live \& {\bf collect data}
+        % \item {\it Fine-tune with RL}
+        \item Detect errors
+        \item Go to step~\ref{it_hand}.
+    \end{enumerate}
+\end{column}
+\begin{column}{0.33\textwidth}
+    {\bf Our approach v1.0 } \\
+    \begin{enumerate}
+        \item {\bf \color{darkgreen} Collect human-human conversations}
+        \item\label{it_select} {\bf \color{darkgreen} Annotate relevant data}
+        \item\label{it_train} {\bf \color{darkgreen} Train model}
+        \item Launch live \& {\bf collect data}
+        % \item {\it Fine-tune with RL}
+        \item Detect errors
+        \item Go to step~\ref{it_select}.
+    \end{enumerate}
+\end{column}
+\begin{column}{0.33\textwidth}
+    {\bf Our holy grail } \\
+    {\bf \color{darkgreen} 1-3 steps of v1.0} \\
+    \begin{enumerate}
+        \setcounter{enumi}{3}
+        \item Launch live \& {\bf collect data + annotations} % \& {\it Explore with RL}
+        \item Validate annotations
+        \item Go to step~\ref{it_train}
+    \end{enumerate}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}\frametitle{End-to-end NN conversational model}
+    {\bf Goal --- Big picture}
+    \begin{itemize}
+        \item Train joint prediction of response templates and database row prediction 
+        \item Fine tune it using Reinforcement Learning (RL) on golden offline data
+            \begin{itemize}
+                \item Direct evaluation metric optimization
+            \end{itemize}
+        \item Further obvious experiments
+        \begin{itemize}
+            \item Access database using standard DB API and train end-to-end model using RL even given non differentiable loss function
+            \item Predict reward function/misunderstanding rate using dialogue history and combination of heuristics
+            \item Automate annotation collection using active dialogue policy
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{Future experiment list}
+    \begin{enumerate}
+        \item {\bf Binary classifier for row selection}
+        \item {\bf Easy first decoding for DST}
+        \item Discovering the databse queries
+        \item End-to-end system for consistent DB calls and system replies
+        \item {\bf Misunderstanding data collection}
+        \item {\bf Data augmentation through exploration}
+        \item Facts discovery through misunderstaning
+    \end{enumerate}
+    {\footnotesize Bold experiments were presented in this presentation}
 \end{frame}
 
 \end{document}
