@@ -177,10 +177,12 @@ Charles University in Prague
 \end{column}
 \begin{column}{0.2\textwidth}
         \begin{center} 
+            {\tiny Example of current architecture}
             \includegraphics[width=0.9\textwidth]{arch.png} \\
         \end{center}
             \vfill
         \begin{center} 
+            {\tiny Example of end-to-end \\ NN architecture}
             \includegraphics[width=0.9\textwidth]{./encdecdb.pdf} 
         \end{center}
 \end{column}
@@ -285,7 +287,7 @@ Charles University in Prague
 \multicolumn{1}{l}{\rule{0pt}{12pt}
                    {\it Model}}&\multicolumn{1}{l}{\it Dev set}&\multicolumn{2}{l}{\it Test set}\\[2pt]
 \hline\rule{0pt}{12pt}
-    {\bf \citet{platek2016recurrent} -- EncDec} &   0.867 & 0.730 \\
+    {\bf \citet{platek_recurrent_2016} -- EncDec} &   0.867 & 0.730 \\
 \hline
     \citet{vodolan_hybrid_2015} & - & 0.745 \\
     \citet{zilka_incremental_2015} & 0.69 & 0.72 \\
@@ -300,19 +302,22 @@ Charles University in Prague
 % FIXME informal experiment why, what I have find?
 % FIXME delexilazilovany - abstrahovany vety
 % FIXME co je delezilolavnae
-\begin{frame}\frametitle{(2) Can I train a single end-to-end model? }
-    End-to-end model trained from dialogue history (words, informal experiment)
+\begin{frame}\frametitle{(2) Can I train an end-to-end model? }
+    End-to-end model trained from dialogue history (informal experiment)
     \begin{itemize}
         \item generate valid response? $\longrightarrow$ {\bf Yes} {\footnotesize (81 \% OK, 37 \% abstracted full match)}
-        \item generate correct facts? $\longrightarrow$ {\bf No} {\footnotesize (Named entity types are correct)} 
+        \item generate correct facts? $\longrightarrow$ {\bf No} {\footnotesize (See example below)} 
             \begin{itemize}
                 \item Problem: Complicated DB model $\longrightarrow$ {\bf annotations will help!}
             \end{itemize}
     \end{itemize}
     \includegraphics[width=0.7\textwidth]{./encdecdb.pdf} \\
+    \vfill
+    {\footnotesize
     {\bf input:} {\it anatolia serves turkish food in the moderate price range what is the phone number and address} \\
     {\bf decoded:} {\it The phone number of {\bf meghna} is {\bf 01223 727410} . EOS} \\
     {\bf target:} {\it The phone number of {\bf anatolia} is {\bf 01223 362372} and it is on 30 Bridge Street City Centre . EOS } \\
+    }
 \end{frame}
 
 \begin{frame}\frametitle{(3) Data collections in our approach}
@@ -435,24 +440,30 @@ Charles University in Prague
 \section{Summary}
 
 % Oddelit motivaci a vysledky 
-\begin{frame}\frametitle{Motivation and results}
+\begin{frame}\frametitle{Results}
     \begin{enumerate}
-        \item Shift expert work from dialogue policy design to better data collection 
+        \item Informative state represented in latent vector space
         \begin{itemize}
             \item No handcrafting features for dialogue state tracking~\cite{platek_recurrent_2016}
-            \item Feasible (crowd-source) data collection~\cite{platek2016wochat}
         \end{itemize}
-        \item Single end-to-end model to optimize
-            \item Response generation --- easy (informal experiments)
+        \item End-to-end model for response generation
+            \begin{itemize}
+            \item Response generation --- easy except facts (informal experiments)
             \item Database row prediction --- work in progress
-            \item Single model -- future work
+            \end{itemize}
+        \item Crowd-sourcing data collection~\cite{platek2016wochat}
+            \begin{itemize}
+                \item Conversations collected response by response
+                \item Collecting annotations for database row predictions
+            \end{itemize}
     \end{enumerate}
+    {\bf \color{darkgreen} Feasible approach for DSTC2 data}
 \end{frame}
 
 % Pridat slajd na co se chystam a co jsem uz udelal
 \begin{frame}\frametitle{Future work}
     \begin{enumerate}
-        \item Improve problematic (misunderstood) replies
+        \item Improve problematic responses
             \begin{itemize}
                 \item Detect misunderstanding
                 \item Collect more annotation and data examples to handle them better
@@ -510,20 +521,18 @@ Charles University in Prague
                 \item Narrow domain $\longrightarrow$ lack of data
                 \item Each new domain has to {\bf collect specific bootstrap data}
             \end{itemize}
-            \item {\bf \color{blue} Conditioning on database} when generating response 
-            {\bf \color{blue} Lack of evaluation metrics} for dialogue response generation
-            \\
+            {\bf \color{blue} Conditioning on database} when generating response  \\
+            {\bf \color{blue} Lack of evaluation metrics} for dialogue response generation \\
             \begin{itemize}
-                \item Datasets too small $\longrightarrow$ {\bf hard to train supervised models}
+                % \item Datasets too small $\longrightarrow$ {\bf hard to train supervised models}
                 \item Task completion, appropriateness~\cite{bohus2007error}, \dots 
                 \begin{itemize}
                     \item Human judgement needed \item {\bf Weak and noisy} reinforcement {\bf signals}
                 \end{itemize}
-            \item Objective metrics 
+                \item Objective metrics do not correlate well with human judgements
                 % BLEU~\cite{papineni_bleu_2002}, Next utterance classification~\cite{lowe_evaluation_2016}, Word perplexity ~\cite{mikolov_recurrent_2010}  % rict
-                do not correlate well with human judgements
             \end{itemize}
-    % \end{itemize}
+    % % \end{itemize}
 \end{frame}
 
 \begin{frame}\frametitle{Scalable deployment}
