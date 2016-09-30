@@ -194,6 +194,10 @@ Charles University in Prague
         \item Our {\bf proposed} model needs simple annotations
         \item {\color{darkgreen} Offline data collection scheme}~\cite{wen_networkbased_2016,platek2016wochat}
         \item {\bf \color{darkgreen} Easy to bootstrap a baseline with DB and few hundreds conversations}
+            \begin{itemize}
+                \item \color{darkgreen} Human-human 
+                \item \color{darkgreen} Operator-user
+            \end{itemize}
         % \item {\bf \color{darkgreen} Fine tuning via RL}
     \end{itemize}
 \end{column}
@@ -227,7 +231,7 @@ Charles University in Prague
     \begin{itemize}
         \item {\bf Text-to-text} $\longrightarrow$ single modality (extensible to speech)
             \begin{itemize}
-                \item ASR matures 
+                \item ASR matures, chat based dialogues popular
             \end{itemize}
         \item {\bf End-to-end single model architecture} $\longrightarrow$ principled approach
             \begin{itemize}
@@ -254,6 +258,13 @@ Charles University in Prague
     % dokazu vyvorit latentni reprezentaci
     % udealal jsem prvni krok - proto abych mohl vygenerovat odpoved
     % overil jsem dostatecne informativni model ze takovy model je schopny reprezentovat tento stav
+    {\bf \large Dialog state summarizes history} 
+    \begin{itemize}
+        \item access to database 
+        \item response generation
+    \end{itemize}
+
+    {\footnotesize
     \food{n}{None}, \area{None}, \pricerange{None} \\
     \sys{What part of town do you have in mind?} \\
     \usr{West part of town.} \\
@@ -262,8 +273,10 @@ Charles University in Prague
     \usr{Indian} \\
     \food{n+2}{Indian}, \area{west}, \pricerange{None} \\
     \sys{India House is a nice place in the west of town serving tasty Indian food.} \\
+    }
+
     \begin{center}
-        \includegraphics[width=0.7\textwidth]{encdec}
+        \includegraphics[width=0.5\textwidth]{encdec}
     \end{center}
 \end{frame}
 
@@ -303,7 +316,7 @@ Charles University in Prague
 % FIXME delexilazilovany - abstrahovany vety
 % FIXME co je delezilolavnae
 \begin{frame}\frametitle{(2) Can I train an end-to-end model? }
-    End-to-end model trained from dialogue history (informal experiment)
+    {\bf End-to-end model} trained from dialogue history (informal experiment)
     \begin{itemize}
         \item generate valid response? $\longrightarrow$ {\bf Yes} {\footnotesize (81 \% OK, 37 \% abstracted full match)}
         \item generate correct facts? $\longrightarrow$ {\bf No} {\footnotesize (See example below)} 
